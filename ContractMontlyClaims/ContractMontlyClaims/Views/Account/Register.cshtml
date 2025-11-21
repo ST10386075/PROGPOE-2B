@@ -1,0 +1,108 @@
+@model RegisterViewModel
+@{
+    ViewData["Title"] = "Create account";
+}
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-8 col-lg-6 col-xl-5">
+        <div class="card shadow-sm border-0 login-card">
+            <div class="card-header text-center border-0 login-card-header">
+                <h1 class="h4 mb-1">Create an account</h1>
+                <p class="mb-0 small">Sign up as a lecturer or programme coordinator.</p>
+            </div>
+            <div class="card-body">
+                <form asp-action="Register" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="UserId" class="form-label"></label>
+                        <input asp-for="UserId" class="form-control" />
+                        <span asp-validation-for="UserId" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="FullName" class="form-label"></label>
+                        <input asp-for="FullName" class="form-control" />
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Phone" class="form-label"></label>
+                        <input asp-for="Phone" class="form-control" />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Department" class="form-label"></label>
+                        <input asp-for="Department" class="form-control" />
+                        <span asp-validation-for="Department" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Role" class="form-label"></label>
+                        <select asp-for="Role" class="form-select" asp-items="Html.GetEnumSelectList<UserRole>()"></select>
+                        <span asp-validation-for="Role" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label"></label>
+                        <div class="input-group">
+                            <input asp-for="Password" class="form-control" />
+                            <button type="button" class="btn btn-outline-secondary toggle-password" data-target="Password">[+]</button>
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="ConfirmPassword" class="form-label"></label>
+                        <div class="input-group">
+                            <input asp-for="ConfirmPassword" class="form-control" />
+                            <button type="button" class="btn btn-outline-secondary toggle-password" data-target="ConfirmPassword">[+]</button>
+                        </div>
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 btn-lg">Create account</button>
+                </form>
+            </div>
+            <div class="card-footer border-0 text-center small bg-light">
+                <span>Already have an account?</span>
+                <a asp-action="Login" asp-route-role="@Model.Role" class="text-decoration-none">Sign in</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        (function () {
+            var buttons = document.querySelectorAll('.toggle-password');
+            if (!buttons || buttons.length === 0) {
+                return;
+            }
+            buttons.forEach(function (btn) {
+                var targetId = btn.getAttribute('data-target');
+                var input = document.getElementById(targetId);
+                if (!input) {
+                    return;
+                }
+                btn.addEventListener('click', function () {
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        btn.textContent = '[-]';
+                    } else {
+                        input.type = 'password';
+                        btn.textContent = '[+]';
+                    }
+                });
+            });
+        })();
+    </script>
+}

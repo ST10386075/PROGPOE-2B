@@ -1,0 +1,68 @@
+@model IEnumerable<ContractMontlyClaims.Models.ContractMonthlyClaim>
+
+@{
+    ViewData["Title"] = "My Claims";
+}
+
+<h1 class="mb-4">My Claims</h1>
+
+@if (!Model.Any())
+{
+    <p>You have not submitted any claims yet.</p>
+    <a asp-action="Create" class="btn btn-primary">Submit a claim</a>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-striped align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th>
+                    <th>Hours</th>
+                    <th>Rate</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Document</th>
+                    <th>Last updated</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var claim in Model)
+            {
+                <tr>
+                    <td>@claim.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>@claim.HoursWorked</td>
+                    <td>R @claim.HourlyRate.ToString("N2")</td>
+                    <td>R @claim.TotalAmount.ToString("N2")</td>
+                    <td>
+                        @{
+                            string badgeClass = claim.Status switch
+                            {
+                                ContractMontlyClaims.Models.ClaimStatus.Pending => "bg-secondary",
+                                ContractMontlyClaims.Models.ClaimStatus.Approved => "bg-success",
+                                ContractMontlyClaims.Models.ClaimStatus.Rejected => "bg-danger",
+                                ContractMontlyClaims.Models.ClaimStatus.Settled => "bg-primary",
+                                _ => "bg-secondary"
+                            };
+                        }
+                        <span class="badge @badgeClass">@claim.Status</span>
+                    </td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(claim.AttachmentFileName))
+                        {
+                            <a asp-action="DownloadAttachment" asp-route-id="@claim.Id">Download</a>
+                        }
+                        else
+                        {
+                            <span class="text-muted">None</span>
+                        }
+                    </td>
+                    <td>
+                        @(claim.UpdatedAt?.ToLocalTime().ToString("yyyy-MM-dd HH:mm") ?? "-")
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}

@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Welcome";
+}
+
+<div class="welcome-banner text-center text-md-center">
+    <h1 class="display-5 fw-bold mb-2">Welcome to Monthly Claims System</h1>
+    <p class="lead mb-0">Secure portal for contract lecturers and programme coordinators.</p>
+</div>
+
+<div class="welcome-body text-center">
+    <h2 class="h3 mb-3">Welcome!</h2>
+    <p class="lead mb-4">Please select your role to continue:</p>
+
+    <div class="d-flex flex-wrap justify-content-center gap-3 mb-4">
+        <a asp-controller="Account" asp-action="Login" asp-route-role="Lecturer" class="btn btn-role btn-role-lecturer btn-lg px-5 py-3">
+            Lecturer
+        </a>
+        <a asp-controller="Account" asp-action="Login" asp-route-role="ProgrammeCoordinator" class="btn btn-role btn-role-coordinator btn-lg px-5 py-3">
+            Programme Coordinator
+        </a>
+    </div>
+
+    <p class="text-muted small mb-0">
+        Only authorised staff members can sign in and view claims.
+    </p>
+</div>

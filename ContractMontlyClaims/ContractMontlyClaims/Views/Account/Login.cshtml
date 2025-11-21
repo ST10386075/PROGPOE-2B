@@ -1,0 +1,75 @@
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Sign in";
+    var roleName = Model.Role == UserRole.ProgrammeCoordinator ? "Programme Coordinator" : "Lecturer";
+}
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-8 col-lg-6 col-xl-5">
+        <div class="card shadow-sm border-0 login-card">
+            <div class="card-header text-center border-0 login-card-header">
+                <h1 class="h4 mb-1">Monthly Claims Login</h1>
+                <p class="mb-0 small">Sign in as <strong>@roleName</strong> to continue.</p>
+            </div>
+            <div class="card-body">
+                <form asp-action="Login" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <input asp-for="Role" type="hidden" />
+                    <input asp-for="ReturnUrl" type="hidden" />
+
+                    <div class="mb-3">
+                        <label asp-for="UserId" class="form-label"></label>
+                        <input asp-for="UserId" class="form-control" />
+                        <span asp-validation-for="UserId" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label"></label>
+                        <div class="input-group">
+                            <input asp-for="Password" class="form-control" />
+                            <button type="button" class="btn btn-outline-secondary" id="ToggleLoginPassword">[+]</button>
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-3 small text-muted">
+                        <span>Demo IDs: LEC001 / PC001</span>
+                        <span>Password: Password123!</span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 btn-lg">Sign in</button>
+                </form>
+            </div>
+            <div class="card-footer border-0 text-center small bg-light">
+                <div class="mb-1">
+                    <span>New user?</span>
+                    <a asp-action="Register" asp-route-role="@Model.Role" class="text-decoration-none">Create an account</a>
+                </div>
+                <a asp-controller="Home" asp-action="Index" class="text-decoration-none">&larr; Back to role selection</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        (function () {
+            var input = document.getElementById('Password');
+            var toggle = document.getElementById('ToggleLoginPassword');
+            if (!input || !toggle) {
+                return;
+            }
+            toggle.addEventListener('click', function () {
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    toggle.textContent = '[-]';
+                } else {
+                    input.type = 'password';
+                    toggle.textContent = '[+]';
+                }
+            });
+        })();
+    </script>
+}

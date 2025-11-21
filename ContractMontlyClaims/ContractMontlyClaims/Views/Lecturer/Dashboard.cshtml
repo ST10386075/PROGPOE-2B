@@ -1,0 +1,60 @@
+@model LecturerDashboardViewModel
+@{
+    ViewData["Title"] = "Lecturer Dashboard";
+}
+
+<div class="dashboard-header bg-lecturer text-white mb-4">
+    <div class="d-flex justify-content-between align-items-center flex-wrap">
+        <h1 class="h3 mb-0">Lecturer Dashboard</h1>
+        <a asp-controller="Home" asp-action="Index" class="text-white text-decoration-none small">
+            &larr; Back to Main
+        </a>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <h2 class="h5 mb-3">Quick Actions</h2>
+                <div class="d-grid gap-3">
+                    <a asp-controller="Account" asp-action="Profile" class="btn btn-quick-action btn-quick-action-secondary">
+                        Edit Personal Information
+                    </a>
+                    <a asp-controller="ContractClaims" asp-action="Create" class="btn btn-quick-action btn-quick-action-primary">
+                        Submit Monthly Claims
+                    </a>
+                    <a asp-controller="ContractClaims" asp-action="MyClaims" class="btn btn-quick-action btn-quick-action-warning">
+                        View Previous Claims
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <h2 class="h5 mb-3">Lecturer Information</h2>
+                <div class="lecturer-info-panel p-3 mb-3">
+                    <h3 class="h5 mb-2">@Model.Lecturer.FullName</h3>
+                    <p class="mb-1"><strong>ID:</strong> @Model.Lecturer.Id</p>
+                    <p class="mb-1"><strong>Department:</strong> @Model.Lecturer.Department</p>
+                    <p class="mb-1"><strong>Email:</strong> @Model.Lecturer.Email</p>
+                    <p class="mb-0"><strong>Phone:</strong> @Model.Lecturer.Phone</p>
+                </div>
+
+                <p class="small text-muted mb-0">
+                    @if (Model.RecentClaims.Any())
+                    {
+                        <text>Last claim submitted: @Model.RecentClaims.First().CreatedAt.ToLocalTime().ToString("MMMM yyyy")</text>
+                    }
+                    else
+                    {
+                        <text>No claims submitted yet.</text>
+                    }
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

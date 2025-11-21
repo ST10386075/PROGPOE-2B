@@ -1,0 +1,231 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+:root {
+  --claims-blue: #0d6efd;
+  --claims-green: #198754;
+  --claims-red: #dc3545;
+  --claims-purple: #6f42c1;
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+  background: #f5f7fb;
+}
+
+.hero-claims {
+  margin-top: 1.5rem;
+  padding: 3rem 2rem;
+  background: linear-gradient(135deg, var(--claims-blue), var(--claims-purple));
+  color: #fff;
+  border-radius: 0.75rem;
+}
+
+.hero-claims .btn-outline-light {
+  border-color: rgba(255, 255, 255, 0.8);
+  color: #fff;
+}
+
+.hero-claims .btn-outline-light:hover {
+  background-color: #fff;
+  color: var(--claims-blue);
+}
+
+.hero-claims-panel {
+  background-color: #ffffff;
+  color: #212529;
+}
+
+.hero-claims-panel h2,
+.hero-claims-panel p,
+.hero-claims-panel ol,
+.hero-claims-panel li {
+  color: #212529;
+}
+
+.card {
+  border-radius: 0.75rem;
+}
+
+.card-status-approved {
+  border-top: 4px solid var(--claims-green);
+}
+
+.card-status-settled {
+  border-top: 4px solid var(--claims-purple);
+}
+
+.card-status-reports {
+  border-top: 4px solid var(--claims-blue);
+}
+
+.table thead th {
+  border-bottom-width: 2px;
+}
+
+.badge {
+  letter-spacing: 0.02em;
+}
+
+.claims-navbar {
+  background-color: #243b53;
+}
+
+.claims-navbar .navbar-brand,
+.claims-navbar .nav-link,
+.claims-navbar .navbar-text {
+  color: #ffffff;
+}
+
+.claims-navbar .nav-link:hover,
+.claims-navbar .nav-link:focus {
+  color: #ffd166;
+}
+
+.welcome-banner {
+  background-color: #243b53;
+  padding: 2.5rem 1rem;
+  border-radius: 0.75rem;
+  margin-top: 1rem;
+  color: #ffffff;
+}
+
+.welcome-body {
+  padding: 2.5rem 1rem 1rem;
+}
+
+.btn-role {
+  border-radius: 0.75rem;
+  min-width: 220px;
+}
+
+.btn-role-lecturer {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+  color: #ffffff;
+}
+
+.btn-role-lecturer:hover {
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+}
+
+.btn-role-coordinator {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: #ffffff;
+}
+
+.btn-role-coordinator:hover {
+  background-color: #bb2d3b;
+  border-color: #b02a37;
+}
+
+.login-card {
+  border-radius: 0.9rem;
+}
+
+.login-card-header {
+  background-color: #243b53;
+  color: #ffffff;
+}
+
+.dashboard-header {
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+}
+
+.bg-lecturer {
+  background-color: #0d6efd;
+}
+
+.bg-coordinator {
+  background-color: #dc3545;
+}
+
+.btn-quick-action {
+  padding: 1rem 1.25rem;
+  font-weight: 500;
+  border-radius: 0.75rem;
+  text-align: left;
+}
+
+.btn-quick-action-primary {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+  color: #ffffff;
+}
+
+.btn-quick-action-primary:hover {
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+}
+
+.btn-quick-action-secondary {
+  background-color: #e9f2ff;
+  border-color: #e9f2ff;
+  color: #0d6efd;
+}
+
+.btn-quick-action-warning {
+  background-color: #ffb703;
+  border-color: #ffb703;
+  color: #212529;
+}
+
+.lecturer-info-panel {
+  background-color: #f8f9fa;
+  border-radius: 0.75rem;
+}
+
+.coordinator-stats-row .stat-card {
+  border-radius: 0.75rem;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6c757d;
+}
+
+.stat-value {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.stat-pending {
+  border-top: 4px solid #ffc107;
+}
+
+.stat-month {
+  border-top: 4px solid #0d6efd;
+}
+
+.stat-amount {
+  border-top: 4px solid #20c997;
+}
+
+.stat-approved {
+  border-top: 4px solid #198754;
+}
+
+.coordinator-claim-item {
+  border-left: 4px solid #0d6efd;
+}

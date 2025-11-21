@@ -1,0 +1,96 @@
+@model IEnumerable<ContractMontlyClaims.Models.ContractMonthlyClaim>
+
+@{
+    ViewData["Title"] = "Pending Claims";
+}
+
+<h1 class="mb-4">Pending Claims</h1>
+
+@if (!Model.Any())
+{
+    <p>There are no pending claims at the moment.</p>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-striped align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Id</th>
+                    <th>Date</th>
+                    <th>Hours</th>
+                    <th>Rate</th>
+                    <th>Total</th>
+                    <th>Notes</th>
+                    <th>Document</th>
+                    <th>Auto check</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var claim in Model)
+            {
+                <tr>
+                    <td>@claim.Id</td>
+                    <td>@claim.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>@claim.HoursWorked</td>
+                    <td>R @claim.HourlyRate.ToString("N2")</td>
+                    <td>R @claim.TotalAmount.ToString("N2")</td>
+                    <td>@claim.Notes</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(claim.AttachmentFileName))
+                        {
+                            <a asp-action="DownloadAttachment" asp-route-id="@claim.Id">Download</a>
+                        }
+                        else
+                        {
+                            <span class="text-muted">None</span>
+                        }
+                    </td>
+                    <td>
+                        @{
+                            var warnings = new List<string>();
+                            if (claim.HoursWorked > 160)
+                            {
+                                warnings.Add("Hours exceed typical monthly teaching load (160 hours).");
+                            }
+                            if (claim.HourlyRate > 1000)
+                            {
+                                warnings.Add("Hourly rate is above the standard upper limit (1000).");
+                            }
+                            if (claim.TotalAmount > 50000)
+                            {
+                                warnings.Add("Total claim amount is unusually high (above 50 000).");
+                            }
+                        }
+                        @if (!warnings.Any())
+                        {
+                            <span class="badge bg-success">All checks passed</span>
+                        }
+                        else
+                        {
+                            <ul class="small text-danger mb-0">
+                                @foreach (var warning in warnings)
+                                {
+                                    <li>@warning</li>
+                                }
+                            </ul>
+                        }
+                    </td>
+                    <td>
+                        <form asp-action="Approve" asp-route-id="@claim.Id" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-success">Approve</button>
+                        </form>
+                        <form asp-action="Reject" asp-route-id="@claim.Id" method="post" class="d-inline ms-1">
+                            <button type="submit" class="btn btn-sm btn-danger">Reject</button>
+                        </form>
+                        <form asp-action="Settle" asp-route-id="@claim.Id" method="post" class="d-inline ms-1">
+                            <button type="submit" class="btn btn-sm btn-outline-primary">Settle</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}

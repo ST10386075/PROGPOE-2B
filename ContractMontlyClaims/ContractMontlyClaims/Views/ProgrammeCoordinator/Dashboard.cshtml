@@ -1,0 +1,121 @@
+@model CoordinatorDashboardViewModel
+@{
+    ViewData["Title"] = "Programme Coordinator Dashboard";
+}
+
+<div class="dashboard-header bg-coordinator text-white mb-4">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <h1 class="h3 mb-0">Programme Coordinator Dashboard</h1>
+        <div class="d-flex flex-wrap gap-3 align-items-center small">
+            <a asp-controller="Account" asp-action="Profile" class="text-white text-decoration-none">
+                Edit personal information
+            </a>
+            <a asp-controller="Home" asp-action="Index" class="text-white text-decoration-none">
+                &larr; Back to Main
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mb-4 coordinator-stats-row">
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 stat-card stat-pending">
+            <div class="card-body text-center">
+                <div class="stat-label">Pending Claims</div>
+                <div class="stat-value">@Model.PendingCount</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 stat-card stat-month">
+            <div class="card-body text-center">
+                <div class="stat-label">Claims This Month</div>
+                <div class="stat-value">@Model.ClaimsThisMonth</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 stat-card stat-amount">
+            <div class="card-body text-center">
+                <div class="stat-label">Amount Pending</div>
+                <div class="stat-value">R @Model.AmountPending.ToString("N2")</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 stat-card stat-approved">
+            <div class="card-body text-center">
+                <div class="stat-label">Approved This Month</div>
+                <div class="stat-value">@Model.ApprovedThisMonth</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm border-0">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h2 class="h5 mb-0">Pending Claims Requiring Approval</h2>
+        <div class="d-flex gap-2">
+            <a asp-controller="ContractClaims" asp-action="Pending" class="btn btn-sm btn-outline-secondary">Table View</a>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        @if (!Model.PendingClaims.Any())
+        {
+            <div class="p-4 text-center text-muted">There are no pending claims at the moment.</div>
+        }
+        else
+        {
+            <div class="list-group list-group-flush">
+                @foreach (var claim in Model.PendingClaims)
+                {
+                    <div class="list-group-item coordinator-claim-item">
+                        <div class="row align-items-center g-3">
+                            <div class="col-md-6">
+                                <div class="fw-semibold mb-1">
+                                    @(!string.IsNullOrEmpty(claim.LecturerName) ? claim.LecturerName : $"Lecturer {claim.LecturerId ?? "Unknown"}")
+                                </div>
+                                <div class="small text-muted mb-1">
+                                    @claim.CreatedAt.ToLocalTime().ToString("MMMM yyyy")
+                                </div>
+                                <div class="small">
+                                    <span class="me-2"><strong>Hours:</strong> @claim.HoursWorked</span>
+                                    <span class="me-2"><strong>Rate:</strong> R @claim.HourlyRate.ToString("N2")</span>
+                                    <span><strong>Total:</strong> R @claim.TotalAmount.ToString("N2")</span>
+                                </div>
+                                @if (!string.IsNullOrEmpty(claim.Notes))
+                                {
+                                    <div class="small text-muted mt-1">
+                                        @claim.Notes
+                                    </div>
+                                }
+                                <div class="small mt-1">
+                                    <strong>Documents:</strong>
+                                    @if (!string.IsNullOrEmpty(claim.AttachmentFileName))
+                                    {
+                                        <a asp-controller="ContractClaims" asp-action="DownloadAttachment" asp-route-id="@claim.Id">View Files</a>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">No files attached</span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-md-6 text-md-end">
+                                <form asp-controller="ContractClaims" asp-action="Approve" asp-route-id="@claim.Id" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-success btn-sm mb-1">Approve Claim</button>
+                                </form>
+                                <form asp-controller="ContractClaims" asp-action="Reject" asp-route-id="@claim.Id" method="post" class="d-inline mb-1 ms-md-1">
+                                    <button type="submit" class="btn btn-danger btn-sm">Reject Claim</button>
+                                </form>
+                                <form asp-controller="ContractClaims" asp-action="Settle" asp-route-id="@claim.Id" method="post" class="d-inline mb-1 ms-md-1">
+                                    <button type="submit" class="btn btn-outline-primary btn-sm">Mark as Settled</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>

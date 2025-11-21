@@ -1,0 +1,114 @@
+@model ContractMontlyClaims.Models.HrDashboardViewModel
+
+@{
+    ViewData["Title"] = "HR Dashboard";
+}
+
+<h1 class="mb-4">HR Dashboard</h1>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 h-100 card-status-approved">
+            <div class="card-body">
+                <h2 class="h6 text-muted">Approved claims</h2>
+                <p class="display-6 mb-0">@Model.ApprovedCount</p>
+                <p class="small mb-0 text-muted">Total: R @Model.ApprovedTotal.ToString("N2")</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 h-100 card-status-settled">
+            <div class="card-body">
+                <h2 class="h6 text-muted">Settled claims</h2>
+                <p class="display-6 mb-0">@Model.SettledCount</p>
+                <p class="small mb-0 text-muted">Total: R @Model.SettledTotal.ToString("N2")</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 d-flex align-items-stretch">
+        <div class="card shadow-sm border-0 w-100 card-status-reports">
+            <div class="card-body d-flex flex-column justify-content-between">
+                <div>
+                    <h2 class="h6 mb-2">Reports</h2>
+                    <p class="small mb-3">Generate a CSV report of all approved and settled claims for payment processing.</p>
+                </div>
+                <div>
+                    <a asp-action="ExportApproved" class="btn btn-primary">Download CSV report</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <h2 class="h6 mb-3">Recent approved claims</h2>
+                @if (!Model.RecentApproved.Any())
+                {
+                    <p class="small mb-0">No approved claims yet.</p>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-sm align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Date</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var claim in Model.RecentApproved)
+                            {
+                                <tr>
+                                    <td>@claim.Id</td>
+                                    <td>@claim.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</td>
+                                    <td>R @claim.TotalAmount.ToString("N2")</td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <h2 class="h6 mb-3">Recent settled claims</h2>
+                @if (!Model.RecentSettled.Any())
+                {
+                    <p class="small mb-0">No settled claims yet.</p>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-sm align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Date</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var claim in Model.RecentSettled)
+                            {
+                                <tr>
+                                    <td>@claim.Id</td>
+                                    <td>@claim.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</td>
+                                    <td>R @claim.TotalAmount.ToString("N2")</td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
